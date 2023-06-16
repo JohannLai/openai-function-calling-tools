@@ -1,0 +1,15 @@
+{
+  "name": "openai-function-calling-tools",
+  "version": "0.0.1",
+  "description": "OpenAI Function calling tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "openai",
+    "chatgpt"
+  ],
+  "author": "johannli",
+  "license": "MIT"
+}
