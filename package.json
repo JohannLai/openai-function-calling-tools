@@ -2,14 +2,34 @@
   "name": "openai-function-calling-tools",
   "version": "0.0.1",
   "description": "OpenAI Function calling tools",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --outDir dist/",
+    "watch": "tsc --outDir dist/ --watch",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
   },
   "keywords": [
     "openai",
-    "chatgpt"
+    "open",
+    "ai",
+    "gpt-3",
+    "gpt3",
+    "function calling"
   ],
   "author": "johannli",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "esprima": "^4.0.1",
+    "expr-eval": "^2.0.2",
+    "openai": "^3.3.0",
+    "ts-loader": "^9.4.3",
+    "webpack": "^5.87.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3",
+    "vitest": "^0.32.2"
+  }
 }
