@@ -3,13 +3,13 @@ import moment from 'moment-timezone';
 class Clock {
   clockSchema = {
     name: "clock",
-    description: "Useful for getting the current time and timeZone. Format is'YYYY-MM-DD HH:mm:ss Z', you should confirm the zone is correct.",
+    description: "Useful for getting the current Date and time, Format is'YYYY-MM-DD HH:mm:ss Z', if you don't know the time now, you can use this tool to get the current time.",
     parameters: {
       type: "object",
       properties: {
         timeZone: {
           type: "string",
-          description: "The timeZone to use for the clock. Defaults to 'America/New_York'.",
+          description: "The timeZone to use for the clock. Defaults to 'America/New_York'. empty string will return current time.",
         },
       }
     }

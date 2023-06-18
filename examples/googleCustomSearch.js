@@ -7,7 +7,8 @@ const main = async () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const QUESTION = "How many tesla model 3 sale in 2022?"
+  const QUESTION =
+    "How many tesla model 3 sale in last year? You should get the time first.";
 
   const messages = [
     {
@@ -47,7 +48,7 @@ const main = async () => {
     response = await getCompletion(messages);
 
     if (response.data.choices[0].finish_reason === "stop") {
-      console.log(response.data.choices[0].message.content);
+      console.log("\n\n", response.data.choices[0].message.content);
       break;
     } else if (response.data.choices[0].finish_reason === "function_call") {
       const fnName = response.data.choices[0].message.function_call.name;
