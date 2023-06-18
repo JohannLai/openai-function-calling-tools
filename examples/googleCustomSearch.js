@@ -7,7 +7,7 @@ const main = async () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const QUESTION = "What's the top 10 news in the world today";
+  const QUESTION = "How many tesla model 3 sale in 2022?"
 
   const messages = [
     {
