@@ -18,6 +18,57 @@
     "gpt3",
     "function calling"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "preset": "conventionalcommits",
+    "extends": "@semantic-release/npm",
+    "plugins": [
+      [
+        "semantic-release-gitmoji",
+        {
+          "releaseRules": {
+            "major": [
+              ":boom:",
+              ":fire:",
+              ":rotating_light:",
+              ":boom::fire:",
+              ":boom::rotating_light:",
+              ":boom::fire::rotating_light:",
+              ":zap:"
+            ],
+            "minor": [
+              ":sparkles:",
+              ":lipstick:",
+              ":tada:",
+              ":sparkles::lipstick:",
+              ":sparkles::tada:",
+              ":art:"
+            ],
+            "patch": [
+              ":bug:",
+              ":wrench:",
+              ":ambulance:",
+              ":gear:",
+              ":lock:",
+              ":bug::ambulance:",
+              ":bug::lock:",
+              ":heavy_plus_sign",
+              ":ambulance::lock:"
+            ]
+          }
+        }
+      ],
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  },
   "author": "johannli",
   "license": "MIT",
   "repository": "johannlai/openai-function-calling-tools",
