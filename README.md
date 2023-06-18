@@ -13,7 +13,6 @@ OpenAI Function calling tools is a repository that offers a set of tools to help
 The repo provides the following tools you can use out of the box:
 - Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - GoogleCustomSearch: A wrapper around the Google Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
-- Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - fs: access to the file system. Input should be a file path.
 - sql: Input to this tool is a detailed and correct SQL query, output is a result from the database.
 
