@@ -7,7 +7,7 @@ const main = async () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const QUESTION = "What's the time now in London?";
+  const QUESTION = "What's the top 10 news in the world today";
 
   const messages = [
     {
