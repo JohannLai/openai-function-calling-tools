@@ -7,7 +7,7 @@
 
 OpenAI Function calling tools
 
-OpenAI Function calling tools is a repository that offers a set of tools to help you easy to build a function calling model with OpenAI API. Full test coverage and continuous integration are included.
+OpenAI Function calling tools is a repository that offers a set of tools to help you easy to build a function calling model with OpenAI API.å
 
 ## 🪓 Tools
 The repo provides the following tools you can use out of the box:
