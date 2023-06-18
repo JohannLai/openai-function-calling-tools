@@ -4,9 +4,11 @@
     "target": "es6",
     "module": "commonjs",
     "noImplicitAny": true,
+    "esModuleInterop": true,
     "outDir": "dist",
     "rootDir": ".",
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true
   },
   "exclude": ["dist", "node_modules"]
 }

@@ -21,8 +21,11 @@
   "author": "johannli",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.4.0",
     "esprima": "^4.0.1",
     "expr-eval": "^2.0.2",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "openai": "^3.3.0",
     "ts-loader": "^9.4.3",
     "webpack": "^5.87.0",

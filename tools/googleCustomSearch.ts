@@ -1,8 +1,8 @@
-import { getEnvironmentVariable } from "../util/env.js";
+import axios from 'axios';
 
 class GoogleCustomSearch {
   googleCustomSearchSchema = {
-    name: "google-custom-search",
+    name: "googleCustomSearch",
     description: "a custom search engine. useful for when you need to answer questions about current events. input should be a search query. outputs a JSON array of results.",
     parameters: {
       type: "object",
@@ -23,40 +23,41 @@ class GoogleCustomSearch {
   ) {
     if (!fields.apiKey) {
       throw new Error(
-        `Google API key not set. You can set it as "GOOGLE_API_KEY" in your environment variables.`
+        `Google API key not set.`
       );
     }
     if (!fields.googleCSEId) {
       throw new Error(
-        `Google custom search engine id not set. You can set it as "GOOGLE_CSE_ID" in your environment variables.`
+        `Google custom search engine id not set.`
       );
     }
     this.apiKey = fields.apiKey;
     this.googleCSEId = fields.googleCSEId;
+
+    this.googleCustomSearch = this.googleCustomSearch.bind(this);
   }
 
   async googleCustomSearch(input: string) {
-    const res = await fetch(
-      `https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.googleCSEId}&q=${encodeURIComponent(
-        input
-      )}`
-    );
+    console.log("api key", this.apiKey);
+    try {
+      const res = await axios.get(
+        `https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.googleCSEId}&q=${encodeURIComponent(
+          input
+        )}`
+      );
 
-    if (!res.ok) {
+      const results =
+        res.data?.items?.map((item: { title?: string; link?: string; snippet?: string }) => ({
+          title: item.title,
+          link: item.link,
+          snippet: item.snippet,
+        })) ?? [];
+      return JSON.stringify(results);
+    } catch(error) {
       throw new Error(
-        `Got ${res.status} error from Google custom search: ${res.statusText}`
+        `Error in GoogleCustomSearch: ${error}`
       );
     }
-
-    const json = await res.json();
-
-    const results =
-      json?.items?.map((item: { title?: string; link?: string; snippet?: string }) => ({
-        title: item.title,
-        link: item.link,
-        snippet: item.snippet,
-      })) ?? [];
-    return JSON.stringify(results);
   }
 }
 
