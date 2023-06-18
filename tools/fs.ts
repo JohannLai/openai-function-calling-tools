@@ -14,7 +14,7 @@ class ReadFileTool {
       properties: {
         file_path: {
           type: "string",
-          description: "name of file",
+          description: "file path to read from",
         },
       },
     },
@@ -42,7 +42,7 @@ class WriteFileTool {
       properties: {
         file_path: {
           type: "string",
-          description: "name of file",
+          description: "file path to write to",
         },
         text: {
           type: "string",
