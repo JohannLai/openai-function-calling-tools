@@ -21,8 +21,8 @@ The repo provides the following tools you can use out of the box:
 - 🧮 Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - 🔍 GoogleCustomSearch: A wrapper around the Google Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
 - 📁 fs: WriteFileTool abd ReadFileTool access to the file system. Input should be a file path and text written to the file.
-- 🪩 🚧 webbrowser: A web browser that can open a website. Input should be a URL.
-- ⏳ 🚧  sql: Input to this tool is a detailed and correct SQL query, output is a result from the database.
+- 🚧 webbrowser: A web browser that can open a website. Input should be a URL.
+- 🚧 sql: Input to this tool is a detailed and correct SQL query, output is a result from the database.
 
 
 ## 📦 Quick Install
