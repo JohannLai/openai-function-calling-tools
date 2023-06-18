@@ -2,7 +2,11 @@
 
 # OpenAI Function calling tools
 
+
+<a href="https://www.npmjs.com/package/openai-function-calling-tools"><img src="https://img.shields.io/npm/v/openai-function-calling-tools" alt="Current version"></a>
 [![LICENSE](https://img.shields.io/github/license/JohannLai/openai-function-calling-tools)](https://github.com/JohannLai/openai-function-calling-tools/blob/main/LICENSE)
+<img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release">
+<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome">
 ---
 
 OpenAI Function calling tools 
