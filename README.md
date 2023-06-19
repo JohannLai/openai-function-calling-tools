@@ -97,7 +97,6 @@ const main = async () => {
 
   console.log("Question: " + QUESTION);
 
-/
   while (true) {
     response = await getCompletion(messages);
 
@@ -110,13 +109,13 @@ const main = async () => {
 
       const fn = functions[fnName];
       const result = await fn(...Object.values(JSON.parse(args)));
-      // console parameters
+
       console.log(`Function call: ${fnName}, Arguments: ${args}`);
       console.log(`Calling Function ${fnName} Result: ` + result);
 
       messages.push({
         role: "assistant",
-        content: null,
+        content: "",
         function_call: {
           name: fnName,
           arguments: args,
