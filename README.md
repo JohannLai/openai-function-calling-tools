@@ -34,17 +34,14 @@ The repo provides the following tools you can use out of the box:
 
 ## 📖 Usage
 ```js
-import { googleCustomSearch } from 'openai-function-calling-tools';
-
+import { GoogleCustomSearch } from 'openai-function-calling-tools';
 // * googleCustomSearch is a function that takes a search query and returns a result from the Google Custom Search API.
 // * googleCustomSearchSchema is the json schema for the input to googleCustomSearch. 
 // Can be used at OpenAI createChatCompletion API functions parameter.
-const { googleCustomSearch, googleCustomSearchSchema } =
-    new GoogleCustomSearch({
-      apiKey: process.env.GOOGLE_API_KEY,
-      googleCSEId: process.env.GOOGLE_CSE_ID,
-    });
-
+const { googleCustomSearch, googleCustomSearchSchema } = new GoogleCustomSearch({
+  apiKey: process.env.GOOGLE_API_KEY,
+  googleCSEId: process.env.GOOGLE_CSE_ID,
+});
 ```
 <details><summary>Full example code</summary>
 Just 3 steps to use the tools in your OpenAI API project. 
