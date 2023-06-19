@@ -40,6 +40,7 @@ const main = async () => {
 
     return response;
   };
+
   let response;
 
   console.log("Question: " + QUESTION);

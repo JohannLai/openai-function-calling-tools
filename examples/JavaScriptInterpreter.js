@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const { Calculator } = require("../dist/index.js");
+const { JavaScriptInterpreter } = require("../dist/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -7,7 +7,7 @@ const main = async () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const QUESTION = "What is 100*2?";
+  const QUESTION = "What is 0.1 + 0.2 ?";
 
   const messages = [
     {
@@ -16,27 +16,30 @@ const main = async () => {
     },
   ];
 
-  const { calculator, calculatorSchema } = new Calculator();
+  const { javaScriptInterpreter, javaScriptInterpreterSchema } =
+    new JavaScriptInterpreter();
 
   const functions = {
-    calculator,
+    javaScriptInterpreter,
   };
 
   const getCompletion = async (messages) => {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo-0613",
       messages,
-      functions: [calculatorSchema],
+      functions: [javaScriptInterpreterSchema],
       temperature: 0,
     });
 
     return response;
   };
 
-  console.log("Question: " + QUESTION);
+  console.log("\n\nQuestion: " + QUESTION);
   let response = await getCompletion(messages);
 
-  if (response.data.choices[0].finish_reason === "function_call") {
+  if (response.data.choices[0].finish_reason === "stop") {
+    console.log("\n\n", response.data.choices[0].message.content);
+  } else if (response.data.choices[0].finish_reason === "function_call") {
     const fnName = response.data.choices[0].message.function_call.name;
     const args = response.data.choices[0].message.function_call.arguments;
 
