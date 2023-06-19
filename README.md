@@ -15,6 +15,10 @@ OpenAI Function calling tools is a repository that offers a set of tools to help
 
 [More information about function calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
+JavaScriptInterpreter Sample. 
+
+<img src="assets/javascript.png" width="600" alt="PRs welcome">
+
 ## 🪓 Tools
 The repo provides the following tools you can use out of the box:
 - ⏰ Clock: A clock that can tell you the time.
