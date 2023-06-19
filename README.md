@@ -141,10 +141,10 @@ main();
 
 ## 💻 Supported Environments
 - Node.js v16 or higher
-- Browser
 - Cloudflare Workers
-- Vercel / Next.js (Browser, Serverless and Edge functions)
+- Vercel / Next.js (BAckend, Serverless and Edge functions)
 - Supabase Edge Functions
+- 🚧 Browser
 
 ## 🌟 Inspiration
 - LangChainAI
