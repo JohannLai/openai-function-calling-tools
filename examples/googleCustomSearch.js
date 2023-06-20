@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const { GoogleCustomSearch, Clock } = require("../dist/index.js");
+const { GoogleCustomSearch, Clock } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({

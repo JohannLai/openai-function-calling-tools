@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const { JavaScriptInterpreter } = require("../dist/index.js");
+const { JavaScriptInterpreter } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
