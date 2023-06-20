@@ -42,7 +42,10 @@ The repo provides the following tools you can use out of the box:
 
 ### Example 1: Function Calls
 
-[full example here](/examples/calculator.js)
+
+if you want to run code, click [full example here](/examples/calculator.js)
+
+pseudocode:
 
 ```js
 import { Calculator } from "openai-function-calling-tools";
