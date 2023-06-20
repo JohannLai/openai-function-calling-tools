@@ -146,5 +146,8 @@ main();
 - Supabase Edge Functions
 - 🚧 Browser
 
+## 🛡️ Safe for Production
+[![Security Status](https://www.murphysec.com/platform3/v31/badge/1671046841000607744.svg)](https://www.murphysec.com/console/report/1671046840954470400/1671046841000607744)
+
 ## 🌟 Inspiration
 - LangChainAI
