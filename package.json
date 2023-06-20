@@ -21,6 +21,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json",
+    ".gitignore",
+    "pnpm-lock.yaml"
+  ],
   "release": {
     "branches": [
       "main"
