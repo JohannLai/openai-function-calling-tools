@@ -39,17 +39,39 @@ The repo provides the following tools you can use out of the box:
 
 
 ## 📖 Usage
+
+### Example 1: Function Calls
+
+[full example here](/examples/calculator.js)
+
 ```js
-import { GoogleCustomSearch } from 'openai-function-calling-tools';
-// * googleCustomSearch is a function that takes a search query and returns a result from the Google Custom Search API.
-// * googleCustomSearchSchema is the json schema for the input to googleCustomSearch. 
-// Can be used at OpenAI createChatCompletion API functions parameter.
-const { googleCustomSearch, googleCustomSearchSchema } = new GoogleCustomSearch({
-  apiKey: process.env.GOOGLE_API_KEY,
-  googleCSEId: process.env.GOOGLE_CSE_ID,
-});
+import { Calculator } from "openai-function-calling-tools";
+
+// 1️⃣ initialize the tools of Calculator
+const { calculator, calculatorSchema } = new Calculator();
+const getCompletion = async (messages) => {
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo-0613",
+      messages: [
+        {
+          role: "user",
+          content: QUESTION,
+        },
+      ],
+      // 2️⃣ add the tools schema to the functions parameter
+      functions:[calculatorSchema],
+      temperature: 0,
+    });
+
+    return response;
+  };
+
+const result = await getCompletion(messages);
+console.log(result);  // 3️⃣ The result of 100 multiplied by 2 is 200.
 ```
-<details><summary>Full example code</summary>
+
+<details><summary>Full example code about import { GoogleCustomSearch } from 'openai-function-calling-tools';
+</summary>
 Just 3 steps to use the tools in your OpenAI API project. 
 <p>
 
@@ -139,6 +161,9 @@ main();
 
 </p>
 </details>
+
+### Example 2: Schema Extraction
+🚧 🚧 🚧
 
 ## 💻 Supported Environments
 - Node.js v16 or higher
