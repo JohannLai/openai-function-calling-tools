@@ -9,13 +9,13 @@
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome">
 ---
 
-OpenAI Function calling tools 
+OpenAI Function calling tools
 
 OpenAI Function calling tools is a repository that offers a set of tools to help you easy to build a function calling model with OpenAI API.
 
 [More information about function calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
-JavaScriptInterpreter Sample. 
+JavaScriptInterpreter Sample.
 
 <img src="assets/javascript.png" width="600" alt="PRs welcome">
 
@@ -32,50 +32,91 @@ The repo provides the following tools you can use out of the box:
 
 
 ## 📦 Quick Install
-  
-  ```bash 
+
+  ```bash
   npm install openai-function-calling-tools
   ```
-
 
 ## 📖 Usage
 
 ### Example 1: Function Calls
 
-
-if you want to run code, click [full example here](/examples/calculator.js)
-
-pseudocode:
+use JavaScriptInterpreter to calculate 0.1 + 0.2
 
 ```js
-import { Calculator } from "openai-function-calling-tools";
+import { Configuration, OpenAIApi } from "openai";
+import { JavaScriptInterpreter } from "openai-function-calling-tools"
 
-// 1️⃣ initialize the tools of Calculator
-const { calculator, calculatorSchema } = new Calculator();
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+const QUESTION = "What is 0.1 + 0.2 ?";
+const messages = [
+  {
+    role: "user",
+    content: QUESTION,
+  },
+];
+
+const { javaScriptInterpreter, javaScriptInterpreterSchema } =
+  new JavaScriptInterpreter();
+
+const functions = {
+  javaScriptInterpreter,
+};
+
 const getCompletion = async (messages) => {
-    const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo-0613",
-      messages: [
-        {
-          role: "user",
-          content: QUESTION,
-        },
-      ],
-      // 2️⃣ add the tools schema to the functions parameter
-      functions:[calculatorSchema],
-      temperature: 0,
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo-0613",
+    messages,
+    functions: [javaScriptInterpreterSchema],
+    temperature: 0,
+  });
+
+  return response;
+};
+
+console.log("Question: " + QUESTION);
+
+let response;
+while (true) {
+  response = await getCompletion(messages);
+  const { finish_reason, message } = response.data.choices[0];
+
+  if (finish_reason === "stop") {
+    console.log(message.content);
+    break;
+  } else if (finish_reason === "function_call") {
+    const { name: fnName, arguments: args } = message.function_call;
+
+    const fn = functions[fnName];
+    const parsedArgs = JSON.parse(args);
+    const argValues = Object.values(parsedArgs);
+    const result = await fn(...argValues);
+
+    messages.push({
+      role: "assistant",
+      content: null,
+      function_call: {
+        name: fnName,
+        arguments: args,
+      },
     });
 
-    return response;
-  };
-
-const result = await getCompletion(messages);
-console.log(result);  // 3️⃣ The result of 100 multiplied by 2 is 200.
+    messages.push({
+      role: "function",
+      name: fnName,
+      content: JSON.stringify({ result: result }),
+    });
+  }
+}
 ```
 
 <details><summary>Full example code about import { GoogleCustomSearch } from 'openai-function-calling-tools';
 </summary>
-Just 3 steps to use the tools in your OpenAI API project. 
+Just 3 steps to use the tools in your OpenAI API project.
 <p>
 
 ```js
@@ -105,7 +146,7 @@ const main = async () => {
     });
 
 
-  // ✨ STEP 2:  add the tools to the functions object 
+  // ✨ STEP 2:  add the tools to the functions object
   const functions = {
     googleCustomSearch,
   };
