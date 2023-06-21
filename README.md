@@ -208,7 +208,84 @@ main();
 </details>
 
 ### Example 2: Schema Extraction
-🚧 🚧 🚧
+
+Example to extract schema from a function call
+
+Tree structure:
+
+```js
+import { Configuration, OpenAIApi } from "openai";
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+const getCompletion = async (messages) => {
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo-0613",
+    messages: [
+      {
+        role: "user",
+        content: `root
+              ├── folder1
+              │   ├── file1.txt
+              │   └── file2.txt
+              └── folder2
+                  ├── file3.txt
+                      └── subfolder1
+                              └── file4.txt`
+      },
+    ],
+    functions: [
+      {
+        "name": "buildTree",
+        "description": "build a tree structure",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the node"
+            },
+            "children": {
+              "type": "array",
+              "description": "The tree nodes",
+              "items": {
+                "$ref": "#"
+              }
+            },
+            "type": {
+              "type": "string",
+              "description": "The type of the node",
+              "enum": [
+                "file",
+                "folder"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "children",
+            "type"
+          ]
+        }
+      }
+    ],
+    temperature: 0,
+  });
+
+  return response;
+};
+
+let response = await getCompletion();
+
+if (response.data.choices[0].finish_reason === "function_call") {
+  const args = response.data.choices[0].message.function_call.arguments;
+  // 🌟 output the Tree structure data
+  console.log(args);
+}
+```
 
 ## 💻 Supported Environments
 - Node.js v16 or higher
