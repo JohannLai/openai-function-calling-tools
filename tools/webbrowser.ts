@@ -1,3 +1,5 @@
+import { Document } from "langchain/document";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import axiosMod, { AxiosRequestConfig, AxiosStatic } from "axios";
 import * as cheerio from "cheerio";
 
@@ -19,35 +21,6 @@ const DEFAULT_HEADERS = {
 };
 
 class Webbrowser {
-  webbrowserSchema = {
-    name: "webbrowser",
-    description: "useful for when you need to summarize a webpage. input should be a ONE valid http URL including protocol.",
-    parameters: {
-      type: "object",
-      properties: {
-        url: {
-          type: "string",
-          description: "a valid http URL including protocol",
-        },
-      }
-    }
-  };
-
-  webbrowser = async (url: string) => {
-    let text;
-    try {
-      const html = await this.getHtml(url);
-      text = this.getText(html, url);
-
-      return text;
-    } catch (e) {
-      if (e) {
-        return e.toString();
-      }
-      return "There was a problem connecting to the site";
-    }
-  }
-
   private getHtml = async (url: string) => {
     const axios = (
       "default" in axiosMod ? axiosMod.default : axiosMod
@@ -95,19 +68,15 @@ class Webbrowser {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     $(`${rootElement}:not(style):not(script):not(svg)`).each((_i:any, elem: any) => {
-      // we dont want duplicated content as we drill down so remove children
-      //  let content = $(elem).clone().children().remove().end().text().trim();
       let content = $(elem).text().trim();
       const $el = $(elem);
   
-      // if its an ahref, print the content and url
       let href = $el.attr("href");
       if ($el.prop("tagName")?.toLowerCase() === "a" && href) {
         if (!href.startsWith("http")) {
           try {
             href = new URL(href, baseUrl).toString();
           } catch {
-            // if this fails thats fine, just no url for this
             href = "";
           }
         }
@@ -125,9 +94,43 @@ class Webbrowser {
       }
     });
 
-      console.log(text.trim());
-      console.log(123123);
-      return text.trim();
+      return text.trim().replace(/\n+/g, " ");
+    }
+
+
+    webbrowserSchema = {
+      name: "webbrowser",
+      description: "useful for when you need to summarize a webpage. input should be a ONE valid http URL including protocol.",
+      parameters: {
+        type: "object",
+        properties: {
+          url: {
+            type: "string",
+            description: "a valid http URL including protocol",
+          },
+        }
+      }
+    };
+  
+    webbrowser = async (url: string) => {
+      let text;
+      try {
+        const html = await this.getHtml(url);
+        text = this.getText(html, url);
+      } catch (e) {
+        if (e) {
+          return e.toString();
+        }
+        return "There was a problem connecting to the site";
+      }
+      const textSplitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 2000,
+        chunkOverlap: 200,
+      });
+      
+      const texts = await textSplitter.splitText(text);
+  
+      return texts.slice(0, 4).join("\n");
     }
 }
 export {

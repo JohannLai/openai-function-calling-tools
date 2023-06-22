@@ -89,6 +89,7 @@
     "cheerio": "1.0.0-rc.12",
     "esprima": "^4.0.1",
     "expr-eval": "^2.0.2",
+    "langchain": "^0.0.96",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "openai": "^3.3.0",

@@ -1,5 +1,6 @@
 const { Configuration, OpenAIApi } = require("openai");
 const { Webbrowser } = require("../dist/cjs/index.js");
+const { GoogleCustomSearch, Clock } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -8,7 +9,7 @@ const main = async () => {
   const openai = new OpenAIApi(configuration);
 
   const QUESTION =
-    "summary of the web page https://openai.com/blog/function-calling-and-other-api-updates";
+    "what is the top 1 news in the world today, you can browse the web using the webbrowser function and get today using the clock function";
 
   const messages = [
     {
@@ -18,16 +19,25 @@ const main = async () => {
   ];
 
   const { webbrowser, webbrowserSchema } = new Webbrowser();
+  const { googleCustomSearch, googleCustomSearchSchema } =
+    new GoogleCustomSearch({
+      apiKey: process.env.GOOGLE_API_KEY,
+      googleCSEId: process.env.GOOGLE_CSE_ID,
+    });
+
+  const { clock, clockSchema } = new Clock();
 
   const functions = {
     webbrowser,
+    googleCustomSearch,
+    clock,
   };
 
   const getCompletion = async (messages) => {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo-0613",
       messages,
-      functions: [webbrowserSchema],
+      functions: [webbrowserSchema, googleCustomSearchSchema, clockSchema],
       temperature: 0,
     });
 
