@@ -1,31 +1,26 @@
+// clock.ts
 import moment from 'moment-timezone';
+import { Tool } from './tool';
+import { z } from 'zod';
 
-class Clock {
-  clockSchema = {
-    name: "clock",
-    description: "Useful for getting the current Date and time, Format is'YYYY-MM-DD HH:mm:ss Z', if you don't know the time now, you can use this tool to get the current time.",
-    parameters: {
-      type: "object",
-      properties: {
-        timeZone: {
-          type: "string",
-          description: "The timeZone to use for the clock. Defaults to 'America/New_York'. empty string will return current time.",
-        },
-      }
-    }
-  };
+function createClock() {
+  const paramsSchema = z.object({
+    timeZone: z.string().optional(),
+  })
+  const name = 'clock';
+  const description = "Useful for getting the current Date and time, Format is'YYYY-MM-DD HH:mm:ss Z', if you don't know the time now, you can use this tool to get the current time.";
 
-  clock = (timeZone?: string) => {
+  const execute = ({ timeZone }: z.infer<typeof paramsSchema>) => {
     if (!timeZone) {
       const currentTime = moment().format('YYYY-MM-DD HH:mm:ss Z');
       return currentTime;
-    }else{
+    } else {
       const currentTime = moment().tz(timeZone).format('YYYY-MM-DD HH:mm:ss Z');
       return currentTime;
     }
   };
+
+  return new Tool(paramsSchema, name, description, execute).tool;
 }
 
-export {
-  Clock
-};
+export { createClock };

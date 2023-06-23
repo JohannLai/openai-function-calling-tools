@@ -1,5 +1,8 @@
 const { Configuration, OpenAIApi } = require("openai");
-const { GoogleCustomSearch, Clock } = require("../dist/cjs/index.js");
+const {
+  createGoogleCustomSearch,
+  createClock,
+} = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -8,7 +11,7 @@ const main = async () => {
   const openai = new OpenAIApi(configuration);
 
   const QUESTION =
-    "How many tesla model 3 sale in last year? You should get the time first.";
+    "How many tesla model 3 sale in last year? You should get the year first. And then get the tesla model 3 sale number.";
 
   const messages = [
     {
@@ -18,12 +21,12 @@ const main = async () => {
   ];
 
   const { googleCustomSearch, googleCustomSearchSchema } =
-    new GoogleCustomSearch({
+    createGoogleCustomSearch({
       apiKey: process.env.GOOGLE_API_KEY,
       googleCSEId: process.env.GOOGLE_CSE_ID,
     });
 
-  const { clock, clockSchema } = new Clock();
+  const { clock, clockSchema } = createClock();
 
   const functions = {
     googleCustomSearch,
@@ -56,7 +59,7 @@ const main = async () => {
       const args = response.data.choices[0].message.function_call.arguments;
 
       const fn = functions[fnName];
-      const result = await fn(...Object.values(JSON.parse(args)));
+      const result = await fn(JSON.parse(args));
       // console parameters
       console.log(`Function call: ${fnName}, Arguments: ${args}`);
       console.log(`Calling Function ${fnName} Result: ` + result);

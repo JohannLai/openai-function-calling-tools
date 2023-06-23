@@ -35,6 +35,9 @@ dependencies:
   zod:
     specifier: ^3.21.4
     version: 3.21.4
+  zod-to-json-schema:
+    specifier: ^3.21.2
+    version: 3.21.2(zod@3.21.4)
 
 devDependencies:
   '@semantic-release/commit-analyzer':
