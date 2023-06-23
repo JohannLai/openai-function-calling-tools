@@ -1,47 +1,22 @@
 import axios from 'axios';
+import { Tool } from './tool';
+import { z } from 'zod';
 
-class GoogleCustomSearch {
-  googleCustomSearchSchema = {
-    name: "googleCustomSearch",
-    description: "a custom search engine. useful for when you need to answer questions about current events. input should be a search query. outputs a JSON array of results.",
-    parameters: {
-      type: "object",
-      properties: {
-        input: {
-          type: "string",
-          description: "a search query",
-        },
-      },
-    },
-  };
-
-  protected apiKey: string;
-  protected googleCSEId: string;
-
-  constructor(
-    fields: { apiKey: string; googleCSEId: string }
-  ) {
-    if (!fields.apiKey) {
-      throw new Error(
-        `Google API key not set.`
-      );
-    }
-    if (!fields.googleCSEId) {
-      throw new Error(
-        `Google custom search engine id not set.`
-      );
-    }
-    this.apiKey = fields.apiKey;
-    this.googleCSEId = fields.googleCSEId;
-
-    this.googleCustomSearch = this.googleCustomSearch.bind(this);
+function createGoogleCustomSearch({ apiKey, googleCSEId }: { apiKey: string; googleCSEId: string }) {
+  if (!apiKey || !googleCSEId) {
+    throw new Error('Google API key and custom search engine id must be set.');
   }
 
-  async googleCustomSearch(input: string) {
-    console.log("api key", this.apiKey);
+  const paramsSchema = z.object({
+    input: z.string(),
+  });
+  const name = 'googleCustomSearch';
+  const description = 'A custom search engine. Useful for when you need to answer questions about current events. Input should be a search query. Outputs a JSON array of results.';
+
+  const execute = async ({ input }: z.infer<typeof paramsSchema>) => {
     try {
       const res = await axios.get(
-        `https://www.googleapis.com/customsearch/v1?key=${this.apiKey}&cx=${this.googleCSEId}&q=${encodeURIComponent(
+        `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${googleCSEId}&q=${encodeURIComponent(
           input
         )}`
       );
@@ -54,11 +29,11 @@ class GoogleCustomSearch {
         })) ?? [];
       return JSON.stringify(results);
     } catch(error) {
-      throw new Error(
-        `Error in GoogleCustomSearch: ${error}`
-      );
+      throw new Error(`Error in GoogleCustomSearch: ${error}`);
     }
-  }
+  };
+
+  return new Tool(paramsSchema, name, description, execute).tool;
 }
 
-export { GoogleCustomSearch };
+export { createGoogleCustomSearch };

@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const { Calculator } = require("../dist/cjs/index.js");
+const { createCalculator } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -16,7 +16,7 @@ const main = async () => {
     },
   ];
 
-  const { calculator, calculatorSchema } = new Calculator();
+  const { calculator, calculatorSchema } = createCalculator();
 
   const functions = {
     calculator,
@@ -45,7 +45,7 @@ const main = async () => {
 
     // call the function
     const fn = functions[fnName];
-    const result = fn(...Object.values(JSON.parse(args)));
+    const result = fn(JSON.parse(args));
 
     console.log("Calling Function Result: " + result);
 

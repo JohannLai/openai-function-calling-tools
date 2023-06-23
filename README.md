@@ -28,7 +28,7 @@ The repo provides the following tools you can use out of the box:
 - 🧮 Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - 🔍 GoogleCustomSearch: A wrapper around the Google Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
 - 📁 fs: WriteFileTool abd ReadFileTool access to the file system. Input should be a file path and text written to the file.
-- 🚧 webbrowser: A web browser that can open a website. Input should be a URL.
+- 🪩 webbrowser: A web browser that can open a website. Input should be a URL.
 - 🚧 sql: Input to this tool is a detailed and correct SQL query, output is a result from the database.
 
 
@@ -46,7 +46,7 @@ use JavaScriptInterpreter to calculate 0.1 + 0.2
 
 ```js
 import { Configuration, OpenAIApi } from "openai";
-import { JavaScriptInterpreter } from "openai-function-calling-tools"
+import { createJavaScriptInterpreter } from "openai-function-calling-tools"
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -62,7 +62,7 @@ const messages = [
 ];
 
 const { javaScriptInterpreter, javaScriptInterpreterSchema } =
-  new JavaScriptInterpreter();
+  new createJavaScriptInterpreter();
 
 const functions = {
   javaScriptInterpreter,
@@ -94,8 +94,7 @@ while (true) {
 
     const fn = functions[fnName];
     const parsedArgs = JSON.parse(args);
-    const argValues = Object.values(parsedArgs);
-    const result = await fn(...argValues);
+    const result = await fn(parsedArgs);
 
     messages.push({
       role: "assistant",
@@ -122,7 +121,7 @@ Just 3 steps to use the tools in your OpenAI API project.
 
 ```js
 const { Configuration, OpenAIApi } = require("openai");
-const { GoogleCustomSearch } = require("openai-function-calling-tools");
+const { createGoogleCustomSearch } = require("openai-function-calling-tools");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -141,7 +140,7 @@ const main = async () => {
 
   // ✨ STEP 1: new the tools you want to use
   const { googleCustomSearch, googleCustomSearchSchema } =
-    new GoogleCustomSearch({
+    createGoogleCustomSearch({
       apiKey: process.env.GOOGLE_API_KEY,
       googleCSEId: process.env.GOOGLE_CSE_ID,
     });
@@ -178,7 +177,7 @@ const main = async () => {
       const args = response.data.choices[0].message.function_call.arguments;
 
       const fn = functions[fnName];
-      const result = await fn(...Object.values(JSON.parse(args)));
+      const result = await fn(JSON.parse(args));
 
       console.log(`Function call: ${fnName}, Arguments: ${args}`);
       console.log(`Calling Function ${fnName} Result: ` + result);

@@ -1,29 +1,28 @@
+import { z } from "zod";
 import { VM } from "vm2";
-class JavaScriptInterpreter {
-  javaScriptInterpreterSchema = {
-    name: "javaScriptInterpreter",
-    description: "Useful for running JavaScript code in sandbox. Input is a string of JavaScript code, output is the result of the code.",
-    parameters: {
-      type: "object",
-      properties: {
-        code: {
-          type: "string",
-          description: "The JavaScript code to run.",
-        },
-      }
-    }
-  };
+import { Tool } from "./tool";
 
-  javaScriptInterpreter = (code: string) => {
+function createJavaScriptInterpreter() {
+  const paramsSchema = z.object({
+    code: z.string(),
+  });
+  const name = "javaScriptInterpreter";
+  const description = "Useful for running JavaScript code in sandbox. Input is a string of JavaScript code, output is the result of the code.";
+ 
+  const execute = (params: z.infer<typeof paramsSchema>) => {
+    const { code } = params;
     const vm = new VM({
       timeout: 5000,
       sandbox: {},
     });
-    const result = vm.run(code);
-    return result;
+    try {
+      return vm.run(code);
+    } catch (error) {
+      return `Failed to execute script: ${error.message}`;
+    }
   };
+ 
+  return new Tool(paramsSchema, name, description, execute).tool;
 }
 
-export {
-  JavaScriptInterpreter
-};
+export { createJavaScriptInterpreter };

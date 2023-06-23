@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const { JavaScriptInterpreter } = require("../dist/cjs/index.js");
+const { createJavaScriptInterpreter } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -17,7 +17,7 @@ const main = async () => {
   ];
 
   const { javaScriptInterpreter, javaScriptInterpreterSchema } =
-    new JavaScriptInterpreter();
+    new createJavaScriptInterpreter();
 
   const functions = {
     javaScriptInterpreter,
@@ -48,7 +48,7 @@ const main = async () => {
       const args = message.function_call.arguments;
 
       const fn = functions[fnName];
-      const result = await fn(...Object.values(JSON.parse(args)));
+      const result = await fn(JSON.parse(args));
       // console parameters
       console.log(`Function call: ${fnName}, Arguments: ${args}`);
       console.log(`Calling Function ${fnName} Result: ` + result);
