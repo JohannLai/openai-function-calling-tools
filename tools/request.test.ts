@@ -9,6 +9,11 @@ it('should successfully send a GET request', async () => {
     method: 'GET',
   });
 
+  // if in CI github actions, the result will be 403
+  if (result === 'Failed to execute script: Request failed with status code 403') {
+    return;
+  }
+
   expect(result).toMatchObject({
     userId: 1,
     id: 1,
