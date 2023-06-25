@@ -2,7 +2,12 @@ import axios from 'axios';
 import { Tool } from './tool';
 import { z } from 'zod';
 
-function createRequest() {
+function createRequest(baseOption?: {
+  url?: string;
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  data?: Record<string, any>;
+  headers?: Record<string, string>;
+} = {}) {
   const paramsSchema = z.object({
     url: z.string(),
     method: z.enum(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']),
@@ -15,10 +20,10 @@ function createRequest() {
   const execute = async ({ url, method, data, headers }: z.infer<typeof paramsSchema>) => {
     try {
       const res = await axios({
-        url,
-        method,
-        data,
-        headers,
+        url: url || baseOption.url,
+        method: method || baseOption.method,
+        data: data || baseOption.data,
+        headers: headers || baseOption.headers,
       });
 
       return res.data;
