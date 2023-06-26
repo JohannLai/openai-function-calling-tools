@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Tool } from './tool';
 import { z } from 'zod';
 
-function createRequest(baseOption?: {
+function createRequest(baseOption: {
   url?: string;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   data?: Record<string, any>;
@@ -15,7 +15,10 @@ function createRequest(baseOption?: {
     headers: z.record(z.string()).optional(),
   });
   const name = 'request';
-  const description = 'useful for sending http requests. Input is a url, method, data, headers, output is the result of the request.';
+  const description = `Useful for sending http request.
+Use this when you need to get specific content from a url.
+Input is a url, method, data, headers, output is the result of the request.
+`;
 
   const execute = async ({ url, method, data, headers }: z.infer<typeof paramsSchema>) => {
     try {
