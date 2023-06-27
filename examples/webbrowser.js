@@ -11,7 +11,10 @@ const main = async () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const QUESTION = "what is the top 10 news in Hacker News?";
+  const QUESTION = `
+    Get me the top 5 stories on Hacker News in markdown table format.
+    Use columns like title, link, score, comments
+`;
 
   const messages = [
     {
@@ -21,17 +24,11 @@ const main = async () => {
   ];
 
   const { webbrowser, webbrowserSchema } = createWebBrowser();
-  const { googleCustomSearch, googleCustomSearchSchema } =
-    createGoogleCustomSearch({
-      apiKey: process.env.GOOGLE_API_KEY,
-      googleCSEId: process.env.GOOGLE_CSE_ID,
-    });
 
   const { clock, clockSchema } = createClock();
 
   const functions = {
     webbrowser,
-    googleCustomSearch,
     clock,
   };
 
@@ -39,7 +36,7 @@ const main = async () => {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo-0613",
       messages,
-      functions: [webbrowserSchema, googleCustomSearchSchema, clockSchema],
+      functions: [webbrowserSchema, clockSchema],
       temperature: 0,
     });
 
