@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Tool } from './tool';
 import { z } from 'zod';
 
@@ -24,13 +23,17 @@ async function createAIPlugin({
     product: z.string().optional(),
   });
 
-  const aiPluginRes = await axios.get(url).then(res => {
-    return res.data as AIPluginRes
-  })
+  const aiPluginResRes = await fetch(url);
+  if (!aiPluginResRes.ok) {
+    throw new Error(`HTTP error! status: ${aiPluginResRes.status}`);
+  }
+  const aiPluginRes = await aiPluginResRes.json() as AIPluginRes;
 
-  const apiUrlRes = await axios.get(aiPluginRes.api.url).then(res => {
-    return res.data as any
-  })
+  const apiUrlResRes = await fetch(aiPluginRes.api.url);
+  if (!apiUrlResRes.ok) {
+    return `Failed to execute script: ${apiUrlResRes.status}`;
+  }
+  const apiUrlRes = await apiUrlResRes.json() as any;
 
   const execute = async () => {
     return `

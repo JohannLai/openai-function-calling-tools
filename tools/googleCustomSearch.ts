@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Tool } from './tool';
 import { z } from 'zod';
 
@@ -15,20 +14,26 @@ function createGoogleCustomSearch({ apiKey, googleCSEId }: { apiKey: string; goo
 
   const execute = async ({ input }: z.infer<typeof paramsSchema>) => {
     try {
-      const res = await axios.get(
+      const res = await fetch(
         `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${googleCSEId}&q=${encodeURIComponent(
           input
         )}`
       );
 
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
       const results =
-        res.data?.items?.map((item: { title?: string; link?: string; snippet?: string }) => ({
+        data.items?.map((item: { title?: string; link?: string; snippet?: string }) => ({
           title: item.title,
           link: item.link,
           snippet: item.snippet,
         })) ?? [];
       return JSON.stringify(results);
-    } catch(error) {
+    } catch (error) {
       throw new Error(`Error in GoogleCustomSearch: ${error}`);
     }
   };

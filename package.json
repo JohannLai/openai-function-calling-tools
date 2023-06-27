@@ -85,7 +85,6 @@
   "license": "MIT",
   "repository": "johannlai/openai-function-calling-tools",
   "dependencies": {
-    "axios": "^1.4.0",
     "cheerio": "1.0.0-rc.12",
     "esprima": "^4.0.1",
     "expr-eval": "^2.0.2",

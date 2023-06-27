@@ -1,4 +1,3 @@
-import axiosMod, { AxiosRequestConfig, AxiosStatic } from "axios";
 import { Tool } from './tool';
 import { z } from 'zod';
 import * as cheerio from "cheerio";
@@ -25,27 +24,28 @@ function createWebBrowser() {
   const name = 'webbrowser';
   const description = 'useful for when you need to summarize a webpage. input should be a ONE valid http URL including protocol.';
 
-  const execute = async ({ url }:  z.infer<typeof paramsSchema>) => {
-    const axios = ("default" in axiosMod ? axiosMod.default : axiosMod) as AxiosStatic;
-    const config: AxiosRequestConfig = {
-      headers: DEFAULT_HEADERS,
-    };
-
+  const execute = async ({ url }: z.infer<typeof paramsSchema>) => {
     try {
-      const htmlResponse = await axios.get(url);
+      const htmlResponse = await fetch(url, { headers: DEFAULT_HEADERS });
+
+      if (!htmlResponse.ok) {
+        throw new Error(`HTTP error! status: ${htmlResponse.status}`);
+      }
+
+      const contentType = htmlResponse.headers.get("content-type");
       const allowedContentTypes = ["text/html", "application/json", "application/xml", "application/javascript", "text/plain"];
-      const contentType = htmlResponse.headers["content-type"];
-      const contentTypeArray = contentType.split(";");
-      if (contentTypeArray[0] && !allowedContentTypes.includes(contentTypeArray[0])) {
+      const contentTypeArray = contentType?.split(";");
+
+      if (contentTypeArray && contentTypeArray[0] && !allowedContentTypes.includes(contentTypeArray[0])) {
         throw new Error("returned page was not utf8");
       }
 
-      const html = htmlResponse.data;
+      const html = await htmlResponse.text();
       const $ = cheerio.load(html, { scriptingEnabled: true });
       let text = "";
       const rootElement = "body";
 
-      $(`${rootElement}:not(style):not(script):not(svg)`).each((_i:any, elem: any) => {
+      $(`${rootElement}:not(style):not(script):not(svg)`).each((_i: any, elem: any) => {
         let content = $(elem).text().trim();
         const $el = $(elem);
         let href = $el.attr("href");
@@ -69,7 +69,7 @@ function createWebBrowser() {
 
       return text.trim().replace(/\n+/g, " ");
     } catch (error) {
-      throw new Error(`Error in getHtml: ${error}`);
+      return `Error in get content of web: ${error.message}`;
     }
   };
 

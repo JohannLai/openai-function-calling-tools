@@ -1,7 +1,6 @@
 const { Configuration, OpenAIApi } = require("openai");
 const {
   createWebBrowser,
-  createGoogleCustomSearch,
   createClock,
 } = require("../dist/cjs/index.js");
 
