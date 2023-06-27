@@ -7,7 +7,9 @@ class Tool {
   name: string;
   description: string;
   execute: (params: any) => any;
-  tool: any;
+  tool: {
+    [key: string]: Function | ReturnType<Tool['getSchema']>;
+  }
 
   constructor(paramsSchema: z.ZodObject<any>, name: string, description: string, execute: (params: any) => any) {
     this.paramsSchema = paramsSchema;
