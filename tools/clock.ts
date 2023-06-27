@@ -1,6 +1,6 @@
 // clock.ts
 import moment from 'moment-timezone';
-import { Tool } from './tool';
+import { Tool, ToolInterface } from './tool';
 import { z } from 'zod';
 
 function createClock() {

@@ -2,14 +2,16 @@ import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { VM } from "vm2";
 
+export interface ToolInterface {
+  [name: string]: (params: any) => any | object;
+}
+
 class Tool {
   paramsSchema: z.ZodObject<any>;
   name: string;
   description: string;
   execute: (params: any) => any;
-  tool: {
-    [key: string]: Function | ReturnType<Tool['getSchema']>;
-  }
+  tool: ToolInterface
 
   constructor(paramsSchema: z.ZodObject<any>, name: string, description: string, execute: (params: any) => any) {
     this.paramsSchema = paramsSchema;
@@ -20,7 +22,7 @@ class Tool {
     this.tool = {
       [name]: this.run.bind(this),
       [`${name}Schema`]: this.getSchema(),
-    };
+    }
   }
 
   getSchema() {
