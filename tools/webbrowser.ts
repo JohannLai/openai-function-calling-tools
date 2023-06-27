@@ -8,7 +8,7 @@ const DEFAULT_HEADERS = {
   "Accept-Language": "en-US,en;q=0.5",
   "Alt-Used": "LEAVE-THIS-KEY-SET-BY-TOOL",
   Connection: "keep-alive",
-  Host: "www.google.com",
+  // Host: "www.google.com",
   Referer: "https://www.google.com/",
   "Sec-Fetch-Dest": "document",
   "Sec-Fetch-Mode": "navigate",
@@ -24,28 +24,25 @@ function createWebBrowser() {
   const name = 'webbrowser';
   const description = 'useful for when you need to summarize a webpage. input should be a ONE valid http URL including protocol.';
 
-  const execute = async ({ url }: z.infer<typeof paramsSchema>) => {
+  const execute = async ({ url }:  z.infer<typeof paramsSchema>) => {
+    const config = {
+      headers: DEFAULT_HEADERS,
+    };
+
     try {
-      const htmlResponse = await fetch(url, { headers: DEFAULT_HEADERS });
-
-      if (!htmlResponse.ok) {
-        throw new Error(`HTTP error! status: ${htmlResponse.status}`);
-      }
-
-      const contentType = htmlResponse.headers.get("content-type");
+      const htmlResponse = await fetch(url, config);
       const allowedContentTypes = ["text/html", "application/json", "application/xml", "application/javascript", "text/plain"];
-      const contentTypeArray = contentType?.split(";");
-
-      if (contentTypeArray && contentTypeArray[0] && !allowedContentTypes.includes(contentTypeArray[0])) {
-        throw new Error("returned page was not utf8");
+      const contentType = htmlResponse.headers.get("content-type");
+      const contentTypeArray = contentType.split(";");
+      if (contentTypeArray[0] && !allowedContentTypes.includes(contentTypeArray[0])) {
+        return `Error in get content of web: returned page was not utf8`;
       }
-
       const html = await htmlResponse.text();
       const $ = cheerio.load(html, { scriptingEnabled: true });
       let text = "";
       const rootElement = "body";
 
-      $(`${rootElement}:not(style):not(script):not(svg)`).each((_i: any, elem: any) => {
+      $(`${rootElement}:not(style):not(script):not(svg)`).each((_i:any, elem: any) => {
         let content = $(elem).text().trim();
         const $el = $(elem);
         let href = $el.attr("href");
@@ -69,7 +66,7 @@ function createWebBrowser() {
 
       return text.trim().replace(/\n+/g, " ");
     } catch (error) {
-      return `Error in get content of web: ${error.message}`;
+      return `Error in getHtml: ${error}`;
     }
   };
 

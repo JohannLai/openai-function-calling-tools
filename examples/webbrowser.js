@@ -1,8 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const {
-  createWebBrowser,
-  createClock,
-} = require("../dist/cjs/index.js");
+const { createWebBrowser, createClock } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -11,7 +8,7 @@ const main = async () => {
   const openai = new OpenAIApi(configuration);
 
   const QUESTION = `
-    Get me the top 5 stories on Hacker News in markdown table format.
+    Get me the top 5 stories on Hacker News (https://news.ycombinator.com/) in markdown table format.
     Use columns like title, link, score, comments
 `;
 
@@ -55,10 +52,12 @@ const main = async () => {
       const fnName = response.data.choices[0].message.function_call.name;
       const args = response.data.choices[0].message.function_call.arguments;
 
-      const fn = functions[fnName];
-      const result = await fn(JSON.parse(args));
       // console parameters
       console.log(`Function call: ${fnName}, Arguments: ${args}`);
+
+      const fn = functions[fnName];
+      const result = await fn(JSON.parse(args));
+
       console.log(`Calling Function ${fnName} Result: ` + result);
 
       messages.push({
