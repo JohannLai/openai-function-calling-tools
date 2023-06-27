@@ -18,7 +18,6 @@ async function createAIPlugin({
   name: string,
   url: string,
 }) {
-
   const paramsSchema = z.object({
     product: z.string().optional(),
   });

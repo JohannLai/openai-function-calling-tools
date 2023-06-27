@@ -1,5 +1,6 @@
 import { createAIPlugin } from './aiplugin';
 import { expect, it } from 'vitest';
+import { ToolInterface } from './tool';
 
 it('should create a new AIPlugin', async () => {
   const name = 'klarna';
@@ -7,7 +8,7 @@ it('should create a new AIPlugin', async () => {
 
   const { klarna } = await createAIPlugin({
     name, url
-  });
+  }) as ToolInterface
 
   const result = await klarna({});
 
