@@ -12,7 +12,5 @@ it('should create a new AIPlugin', async () => {
 
   const result = await klarna({});
 
-  console.log(111, result);
-
-  expect(result).toContain('Usage Guide');
+  expect(result).toContain('OpenAPI Spec in JSON format');
 });
