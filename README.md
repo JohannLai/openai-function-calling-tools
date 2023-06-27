@@ -62,7 +62,7 @@ const messages = [
 ];
 
 const { javaScriptInterpreter, javaScriptInterpreterSchema } =
-  new createJavaScriptInterpreter();
+  createJavaScriptInterpreter();
 
 const functions = {
   javaScriptInterpreter,
