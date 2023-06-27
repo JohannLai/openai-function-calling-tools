@@ -23,7 +23,7 @@ JavaScriptInterpreter Sample.
 ## 🪓 Tools
 The repo provides the following tools you can use out of the box:
 
-- 🔥 JavaScriptInterpreter: A JavaScript interpreter. Input should be a JavaScript program string.
+- 🔥 🚧 JavaScriptInterpreter: A JavaScript interpreter. Input should be a JavaScript program string.
 - ⏰ Clock: A clock that can tell you the time.
 - 🧮 Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - 🔍 GoogleCustomSearch: A wrapper around the Google Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
