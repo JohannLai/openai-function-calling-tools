@@ -2,7 +2,7 @@ const { Configuration, OpenAIApi } = require("openai");
 const {
   createAIPlugin,
   createRequest
-} = require("../dist/cjs/index.js");
+} = require("../dist/esm/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
