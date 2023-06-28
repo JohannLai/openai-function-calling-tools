@@ -289,7 +289,7 @@ if (response.data.choices[0].finish_reason === "function_call") {
 ## 💻 Supported Environments
 - Node.js v16 or higher
 - Cloudflare Workers
-- Vercel / Next.js (Backend, Serverless and Edge functions)
+- Vercel / Next.js (Backend, Serverless and Edge functions 🔥)
 - Supabase Edge Functions
 - 🚧 Browser
 
