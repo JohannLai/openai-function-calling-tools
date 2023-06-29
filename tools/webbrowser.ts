@@ -24,7 +24,7 @@ function createWebBrowser() {
   const name = 'webbrowser';
   const description = 'useful for when you need to summarize a webpage. input should be a ONE valid http URL including protocol.';
 
-  const execute = async ({ url }:  z.infer<typeof paramsSchema>) => {
+  const execute = async ({ url }: z.infer<typeof paramsSchema>) => {
     const config = {
       headers: DEFAULT_HEADERS,
     };
@@ -42,8 +42,12 @@ function createWebBrowser() {
       let text = "";
       const rootElement = "body";
 
-      $(`${rootElement}:not(style):not(script):not(svg)`).each((_i:any, elem: any) => {
-        let content = $(elem).text().trim();
+      $(`${rootElement} *`).not('style, script, svg').each((_i: any, elem: any) => {
+        let content = $(elem).clone().children().remove().end().text().trim();
+        // 如果内容中还包含 script 标签，则跳过此元素
+        if ($(elem).find("script").length > 0) {
+          return;
+        }
         const $el = $(elem);
         let href = $el.attr("href");
         if ($el.prop("tagName")?.toLowerCase() === "a" && href) {

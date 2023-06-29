@@ -8,8 +8,7 @@ const main = async () => {
   const openai = new OpenAIApi(configuration);
 
   const QUESTION = `
-    Get me the top 5 stories on Hacker News (https://news.ycombinator.com/) in markdown table format.
-    Use columns like title, link, score, comments
+    summarize: https://www.bbc.com/news/world-europe-66049705
 `;
 
   const messages = [
