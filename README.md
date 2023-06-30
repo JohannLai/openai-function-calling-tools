@@ -46,14 +46,15 @@ use JavaScriptInterpreter to calculate 0.1 + 0.2
 
 ```js
 import { Configuration, OpenAIApi } from "openai";
-import { createJavaScriptInterpreter } from "openai-function-calling-tools"
+import { createCalculator } from "openai-function-calling-tools"
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+    apiKey: process.env.OPENAI_API_KEY,
+  });
 const openai = new OpenAIApi(configuration);
 
-const QUESTION = "What is 0.1 + 0.2 ?";
+const QUESTION = "What is 100*2?";
+
 const messages = [
   {
     role: "user",
@@ -61,18 +62,20 @@ const messages = [
   },
 ];
 
-const { javaScriptInterpreter, javaScriptInterpreterSchema } =
-  createJavaScriptInterpreter();
+# ✨ STEP 1: new the tools you want to use
+const [calculator, calculatorSchema] = createCalculator();
 
+# ✨ STEP 2:  add the tools to the functions object
 const functions = {
-  javaScriptInterpreter,
+  calculator,
 };
 
 const getCompletion = async (messages) => {
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo-0613",
     messages,
-    functions: [javaScriptInterpreterSchema],
+    # ✨ STEP 3: add the tools to the schema
+    functions: [calculatorSchema],
     temperature: 0,
   });
 
@@ -80,37 +83,40 @@ const getCompletion = async (messages) => {
 };
 
 console.log("Question: " + QUESTION);
+let response = await getCompletion(messages);
 
-let response;
-while (true) {
-  response = await getCompletion(messages);
-  const { finish_reason, message } = response.data.choices[0];
+if (response.data.choices[0].finish_reason === "function_call") {
+  const fnName = response.data.choices[0].message.function_call.name;
+  const args = response.data.choices[0].message.function_call.arguments;
 
-  if (finish_reason === "stop") {
-    console.log(message.content);
-    break;
-  } else if (finish_reason === "function_call") {
-    const { name: fnName, arguments: args } = message.function_call;
+  console.log("Function call: " + fnName);
+  console.log("Arguments: " + args);
 
-    const fn = functions[fnName];
-    const parsedArgs = JSON.parse(args);
-    const result = await fn(parsedArgs);
+  # ✨ STEP 4: call the function
+  const fn = functions[fnName];
+  const result = fn(JSON.parse(args));
 
-    messages.push({
-      role: "assistant",
-      content: null,
-      function_call: {
-        name: fnName,
-        arguments: args,
-      },
-    });
+  console.log("Calling Function Result: " + result);
 
-    messages.push({
-      role: "function",
+  messages.push({
+    role: "assistant",
+    content: null,
+    function_call: {
       name: fnName,
-      content: JSON.stringify({ result: result }),
-    });
-  }
+      arguments: args,
+    },
+  });
+
+  messages.push({
+    role: "function",
+    name: fnName,
+    content: JSON.stringify({ result: result }),
+  });
+
+  // call the completion again
+  response = await getCompletion(messages);
+
+  console.log(response.data.choices[0].message.content);
 }
 ```
 
@@ -139,7 +145,7 @@ const main = async () => {
   ];
 
   // ✨ STEP 1: new the tools you want to use
-  const { googleCustomSearch, googleCustomSearchSchema } =
+  const [googleCustomSearch, googleCustomSearchSchema] =
     createGoogleCustomSearch({
       apiKey: process.env.GOOGLE_API_KEY,
       googleCSEId: process.env.GOOGLE_CSE_ID,

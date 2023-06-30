@@ -13,5 +13,5 @@ it('should create a new AIPlugin', async () => {
     return;
   }
 
-  expect(result).toContain('OpenAPI Spec in JSON format');
+  expect(result).toContain('OpenAPI Spec in JSON/YAML forma');
 });
