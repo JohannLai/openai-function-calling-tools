@@ -37,7 +37,7 @@ Input is a url, method, body, headers, output is the result of the request.
     }
   };
 
-  return new Tool(paramsSchema, name, description, execute).tool;
+  return new Tool<typeof paramsSchema, z.ZodType<Promise<any>, any>>(paramsSchema, name, description, execute).tool;
 }
 
 export { createRequest };

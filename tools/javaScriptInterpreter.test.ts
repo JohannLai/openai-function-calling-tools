@@ -2,8 +2,8 @@ import { createJavaScriptInterpreter } from "./javaScriptInterpreter";
 import { expect, it } from 'vitest';
 
 it('should interpret JavaScript code correctly', () => {
-  const interpreter = createJavaScriptInterpreter();
-  const result = interpreter.javaScriptInterpreter({
+  const [javaScriptInterpreter] = createJavaScriptInterpreter();
+  const result = javaScriptInterpreter({
     code: `
     1 + 1
     `,
@@ -12,8 +12,8 @@ it('should interpret JavaScript code correctly', () => {
 });
 
 it('should timeout for long running scripts', () => {
-  const interpreter = createJavaScriptInterpreter();
-  const result = interpreter.javaScriptInterpreter({
+  const [javaScriptInterpreter] = createJavaScriptInterpreter();
+  const result = javaScriptInterpreter({
     code: `
     while (true) {}
     `,
@@ -23,8 +23,8 @@ it('should timeout for long running scripts', () => {
 });
 
 it('should not have access to Node.js environment', () => {
-  const interpreter = createJavaScriptInterpreter();
-  const result = interpreter.javaScriptInterpreter({
+  const [javaScriptInterpreter] = createJavaScriptInterpreter();
+  const result = javaScriptInterpreter({
     code: `
     process.exit(1)
     `,

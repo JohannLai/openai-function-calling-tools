@@ -8,7 +8,7 @@ function createJavaScriptInterpreter() {
   });
   const name = "javaScriptInterpreter";
   const description = "Useful for running JavaScript code in sandbox. Input is a string of JavaScript code, output is the result of the code.";
- 
+
   const execute = (params: z.infer<typeof paramsSchema>) => {
     const { code } = params;
     const vm = new VM({
@@ -21,8 +21,8 @@ function createJavaScriptInterpreter() {
       return `Failed to execute script: ${error.message}`;
     }
   };
- 
-  return new Tool(paramsSchema, name, description, execute).tool;
+
+  return new Tool<typeof paramsSchema, z.ZodType<any, any>>(paramsSchema, name, description, execute).tool;
 }
 
 export { createJavaScriptInterpreter };

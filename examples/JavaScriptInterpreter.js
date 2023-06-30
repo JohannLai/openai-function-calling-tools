@@ -16,7 +16,7 @@ const main = async () => {
     },
   ];
 
-  const { javaScriptInterpreter, javaScriptInterpreterSchema } =
+  const [javaScriptInterpreter, javaScriptInterpreterSchema] =
     new createJavaScriptInterpreter();
 
   const functions = {

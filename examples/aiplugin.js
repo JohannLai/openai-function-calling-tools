@@ -1,8 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
-const {
-  createAIPlugin,
-  createRequest
-} = require("../dist/esm/index.js");
+const { createAIPlugin, createRequest } = require("../dist/cjs/index.js");
 
 const main = async () => {
   const configuration = new Configuration({
@@ -11,12 +8,12 @@ const main = async () => {
   const openai = new OpenAIApi(configuration);
 
   const QUESTION = `
-    how many people live in the united states?
+    What is the weather in New York?
 
     2 steps:
-    1. get the open api spec from websearch
+    1. get the open api spec from webSearch
     2. call the request function
-    `
+    `;
 
   const messages = [
     {
@@ -25,15 +22,15 @@ const main = async () => {
     },
   ];
 
-  const { request, requestSchema } = createRequest()
-  const { websearch, websearchSchema } = await createAIPlugin({
+  const [request, requestSchema] = createRequest();
+  const [websearch, websearchSchema] = await createAIPlugin({
     name: "websearch",
-    url: "https://websearch.plugsugar.com/.well-known/ai-plugin.json"
-  })
+    url: "https://websearch.plugsugar.com/.well-known/ai-plugin.json",
+  });
 
   const functions = {
     request,
-    websearch
+    websearch,
   };
 
   const getCompletion = async (messages) => {
@@ -60,11 +57,14 @@ const main = async () => {
       const fnName = response.data.choices[0].message.function_call.name;
       const args = response.data.choices[0].message.function_call.arguments;
 
+      console.log(`Function call: ${fnName}, Arguments: ${args}`);
       const fn = functions[fnName];
       const result = await fn(JSON.parse(args));
       // console parameters
-      console.log(`Function call: ${fnName}, Arguments: ${args}`);
-      console.log(`Calling Function ${fnName} Result: ` + JSON.stringify({ result: result }));
+      console.log(
+        `Calling Function ${fnName} Result: ` +
+          JSON.stringify({ result: result })
+      );
 
       messages.push({
         role: "assistant",

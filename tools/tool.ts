@@ -38,7 +38,7 @@ class Tool<P extends z.ZodType<any, any>, R extends z.ZodType<any, any>> {
       const validatedParams = this.paramsSchema.parse(params);
       return this.execute(validatedParams);
     } catch (error) {
-      return error.message;
+      return error.message as z.infer<R>;
     }
   }
 }

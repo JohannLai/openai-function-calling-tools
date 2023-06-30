@@ -21,7 +21,7 @@ function createCalculator() {
     }
   };
 
-  return new Tool(paramsSchema, name, description, execute).tool;
+  return new Tool<typeof paramsSchema, z.ZodType<string, any>>(paramsSchema, name, description, execute).tool;
 }
 
 export { createCalculator };

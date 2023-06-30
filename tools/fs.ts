@@ -18,7 +18,7 @@ function createReadFileTool(store: BaseFileStore) {
     return await store.readFile(file_path);
   };
 
-  return new Tool(readFileParamsSchema, name, description, execute).tool;
+  return new Tool<typeof readFileParamsSchema, z.ZodType<Promise<string>, any>>(readFileParamsSchema, name, description, execute).tool;
 }
 
 export { createReadFileTool };
@@ -37,7 +37,7 @@ function createWriteFileTool(store: BaseFileStore) {
     return "File written to successfully.";
   };
 
-  return new Tool(writeFileParamsSchema, name, description, execute).tool;
+  return new Tool<typeof writeFileParamsSchema, z.ZodType<Promise<string>, any>>(writeFileParamsSchema, name, description, execute).tool;
 }
 
 export { createWriteFileTool };

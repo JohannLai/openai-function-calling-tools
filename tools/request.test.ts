@@ -1,7 +1,7 @@
 import { createRequest } from './request'; // 根据文件路径更改
 import { expect, it } from 'vitest';
 
-const { request } = createRequest();
+const [request] = createRequest();
 
 it('should successfully send a GET request', async () => {
   const result = await request({

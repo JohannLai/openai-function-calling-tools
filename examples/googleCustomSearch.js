@@ -20,13 +20,13 @@ const main = async () => {
     },
   ];
 
-  const { googleCustomSearch, googleCustomSearchSchema } =
+  const [googleCustomSearch, googleCustomSearchSchema] =
     createGoogleCustomSearch({
       apiKey: process.env.GOOGLE_API_KEY,
       googleCSEId: process.env.GOOGLE_CSE_ID,
     });
 
-  const { clock, clockSchema } = createClock();
+  const [clock, clockSchema] = createClock();
 
   const functions = {
     googleCustomSearch,

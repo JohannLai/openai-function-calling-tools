@@ -18,9 +18,7 @@ async function createAIPlugin({
   name: string,
   url: string,
 }) {
-  const paramsSchema = z.object({
-    product: z.string().optional(),
-  });
+  const paramsSchema = z.object({});
 
   const aiPluginResRes = await fetch(url);
   if (!aiPluginResRes.ok) {
@@ -30,23 +28,23 @@ async function createAIPlugin({
 
   const apiUrlResRes = await fetch(aiPluginRes.api.url);
   if (!apiUrlResRes.ok) {
-    return `Failed to execute script: ${apiUrlResRes.status}`;
+    throw new Error(`Failed to execute script: ${apiUrlResRes.status}`); // 修改这里
   }
-  const apiUrlRes = await apiUrlResRes.json() as any;
+  const apiUrlRes = await apiUrlResRes.text();
 
-  const execute = async () => {
+  const execute = ({ }: z.infer<typeof paramsSchema>) => {
     return `
-OpenAPI Spec in JSON format:\n\n ${JSON.stringify(apiUrlRes)}
-\n\n
-
-ATTENTION: Not the actual data! Just the OpenAPI Spec!
-If you want to get the actual data, 2 steps are required:
-1. Find the API you want to use in the OpenAPI Spec.
-2. generate a client for this API.
-`
+  OpenAPI Spec in JSON/YAML format:\n\n ${apiUrlRes}
+  \n\n
+  
+  ATTENTION: Not the actual data! Just the OpenAPI Spec!
+  If you want to get the actual data, 2 steps are required:
+  1. Find the API you want to use in the OpenAPI Spec.
+  2. generate a client for this API.
+  `
   }
 
-  const description = `Call this tool to get the ${name} Open API specfor interacting
+  const description = `Call this tool to get the Open API specfor interacting
 with the ${aiPluginRes.name_for_human} API, But not the actual data!
 
 JUST THE OPEN API SPEC!
@@ -56,7 +54,7 @@ If you want to get the actual data, 2 steps are required:
 2. generate a client for this API.
 `;
 
-  return new Tool(paramsSchema, name, description, execute).tool;
+  return new Tool<typeof paramsSchema, z.ZodType<string, any>>(paramsSchema, name, description, execute).tool;
 }
 
 export { createAIPlugin }

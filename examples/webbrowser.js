@@ -18,9 +18,9 @@ const main = async () => {
     },
   ];
 
-  const { webbrowser, webbrowserSchema } = createWebBrowser();
+  const [webbrowser, webbrowserSchema] = createWebBrowser();
 
-  const { clock, clockSchema } = createClock();
+  const [clock, clockSchema] = createClock();
 
   const functions = {
     webbrowser,

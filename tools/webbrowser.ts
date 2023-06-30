@@ -74,7 +74,7 @@ function createWebBrowser() {
     }
   };
 
-  return new Tool(paramsSchema, name, description, execute).tool;
+  return new Tool<typeof paramsSchema, z.ZodType<Promise<string>, any>>(paramsSchema, name, description, execute).tool;
 }
 
 export { createWebBrowser };

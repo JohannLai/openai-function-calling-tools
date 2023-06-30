@@ -16,7 +16,7 @@ const main = async () => {
     },
   ];
 
-  const { calculator, calculatorSchema } = createCalculator();
+  const [calculator, calculatorSchema] = createCalculator();
 
   const functions = {
     calculator,
