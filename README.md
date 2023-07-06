@@ -16,9 +16,10 @@ OpenAI Function calling tools is a repository that offers a set of tools to help
 
 [More information about function calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
-JavaScriptInterpreter Sample.
+Sample: https://chatFn.io
 
-<img src="assets/javascript.png" width="600" alt="PRs welcome">
+<img width="1387" alt="image" src="https://github.com/JohannLai/openai-function-calling-tools/assets/10769405/cc0f8565-d556-4325-afb6-bfefe912cc87">
+
 
 ## 🪓 Tools
 The repo provides the following tools you can use out of the box:
