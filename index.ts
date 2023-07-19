@@ -7,3 +7,4 @@ export { createReadFileTool, createWriteFileTool } from './tools/fs';
 export { createAIPlugin } from './tools/aiplugin';
 export { createRequest } from './tools/request';
 export { createShowPoisOnMap } from './tools/showPoisOnMap';
+export { Tool } from './tools/tool';
