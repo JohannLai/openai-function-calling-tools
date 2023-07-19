@@ -34,6 +34,9 @@ The repo provides the following tools you can use out of the box:
 - 🚧 JavaScriptInterpreter: A JavaScript interpreter. Input should be a JavaScript program string.
 
 
+> You can use `{ Tool }` factory function to create a tool instance. See `/tools` for more examples.
+
+
 ## 📦 Quick Install
 
   ```bash
