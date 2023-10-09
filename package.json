@@ -91,7 +91,6 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "openai": "^3.3.0",
-    "vm2": "^3.9.19",
     "zod": "^3.21.4",
     "zod-to-json-schema": "^3.21.2"
   },
