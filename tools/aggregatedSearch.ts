@@ -10,7 +10,7 @@ function createAggregatedSearchTool({ googleApiKey, googleCSEId, bingApiKey, ser
     input: z.string(),
   });
   const name = 'aggregatedSearch';
-  const description = 'Aggregated search tool. For searching in Google bing and other search engines. Input should be a search query. Outputs a JSON array of results from multiple search engines.';
+  const description = 'Aggregated search tool. Useful for searching in Google bing and other search engines. Input should be a search query. Outputs a JSON array of results from multiple search engines.';
 
   const execute = async ({ input }: z.infer<typeof paramsSchema>) => {
     try {
