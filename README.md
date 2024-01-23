@@ -28,11 +28,12 @@ The repo provides the following tools you can use out of the box:
 - ⏰ Clock: A clock that can tell you the time.
 - 🧮 Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - 🔍 GoogleCustomSearch: A wrapper around the Google Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
+- 🔍 BingCustomSearch: A wrapper around the Bing Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
+- 🔍 SerperCustomSearch: A wrapper around the SerpAPI. Useful for when you need to answer questions about current events. Input should be a search query.
 - 📁 fs: WriteFileTool abd ReadFileTool access to the file system. Input should be a file path and text written to the file.
 - 🪩 webbrowser: A web browser that can open a website. Input should be a URL.
 - 🚧 sql: Input to this tool is a detailed and correct SQL query, output is a result from the database.
 - 🚧 JavaScriptInterpreter: A JavaScript interpreter. Input should be a JavaScript program string.
-
 
 > You can use `{ Tool }` factory function to create a tool instance. See `/tools` for more examples.
 
@@ -125,10 +126,43 @@ if (response.data.choices[0].finish_reason === "function_call") {
 }
 ```
 
-<details><summary>Full example code about import { GoogleCustomSearch } from 'openai-function-calling-tools';
-</summary>
-Just 3 steps to use the tools in your OpenAI API project.
-<p>
+### Example 2: Function Calls with Google Custom Search
+
+> 📝 Note: You need to apply for a Google Custom Search API key and a Google Custom Search Engine ID to use this tool.
+
+#### The following is a sequence diagram of the example
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant M as Main Function
+  participant O as OpenAI API
+  participant F as Functions Object
+  participant GC as Google Custom Search
+
+  U->>M: Execute main function
+  M->>M: Initialize configuration and API
+  M->>M: Define QUESTION variable
+  M->>M: Create Google Custom Search tool
+  M->>F: Add tool to functions object
+  loop Chat Completion Loop
+      M->>O: Request chat completion
+      O-->>M: Return response
+      alt If finish reason is "stop"
+          M->>U: Display answer and exit loop
+      else If finish reason is "function_call"
+          M->>M: Parse function call name and arguments
+          M->>F: Invoke corresponding function
+          F->>GC: Perform Google Custom Search
+          GC-->>F: Return search results
+          F->>M: Receive function result
+          M->>M: Add result to message queue
+          M->>M: Output function call details
+      else Other cases
+          M->>M: Continue loop
+      end
+  end
+```
+#### Code
 
 ```js
 const { Configuration, OpenAIApi } = require("openai");
@@ -214,10 +248,8 @@ const main = async () => {
 main();
 ```
 
-</p>
-</details>
 
-### Example 2: Schema Extraction
+### Example 3: Schema Extraction
 
 Example to extract schema from a function call
 
