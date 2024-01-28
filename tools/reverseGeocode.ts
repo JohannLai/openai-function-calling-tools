@@ -17,7 +17,7 @@ function createReverseGeocode({
 
   const name = 'reverseGeocode';
   const description = `
-  Converts latitude and longitude coordinates to a human-readable address using the Mapbox Geocoding API.
+  Converts latitude and longitude coordinates to a human-readable address using the Mapbox Geocoding API. Returns the address as a string.
   latitude: The latitude of the location to be geocoded.
   longitude: The longitude of the location to be geocoded.
 `;

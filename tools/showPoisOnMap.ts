@@ -22,9 +22,9 @@ function createShowPoisOnMap({
 
   const name = 'showPoisOnMap';
   const description = `
-  Displays specific Points of Interest (POIs) on a map using the Mapbox Static API.
+  Displays specific Points of Interest (POIs) on a map using the Mapbox Static API. Returns a URL to the map image.
   pois: An array of POIs to be displayed on the map.
-  zoom: The zoom level for the map depends from the place size. For larger places use min value and for smaller use max. For countries use zoom '1.0'-'3.0'; for national parks, states use '4.0'-'6.0'; landmarks, places or cities use '7.0'-'9.0'. If multiple places are provided, this will automatically set to 'auto'.
+  zoom: The zoom level for the map depends from the place size. For larger places use min value and for smaller use max. For countries use zoom '1.0'-'3.0'; for national parks, states use '4.0'-'6.0'; landmarks, places or cities use '7.0'-'9.0'. For streets use '10.0'-'20.0'.  If multiple places are provided, this will automatically set to 'auto'.
   mapStyle: The style of the map. Can be 'streets-v12' or 'satellite-streets-v12'.
 `
 
