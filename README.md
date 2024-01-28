@@ -25,6 +25,7 @@ Sample: https://chatFn.io
 The repo provides the following tools you can use out of the box:
 
 - 🗺️ ShowPoisOnMap: A tool that can show points of interest on a map.
+- 🌐 ReverseGeocode: A tool that can convert coordinates into a human-readable address.
 - ⏰ Clock: A clock that can tell you the time.
 - 🧮 Calculator: A simple calculator that can do basic arithmetic. Input should be a math expression.
 - 🔍 GoogleCustomSearch: A wrapper around the Google Custom Search API. Useful for when you need to answer questions about current events. Input should be a search query.
