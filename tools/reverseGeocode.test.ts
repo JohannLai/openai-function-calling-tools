@@ -3,11 +3,11 @@ import { expect, it } from 'vitest';
 
 
 it('should successfully return an address from coordinates', async () => {
-  const reverseGeocode = createReverseGeocode({
+  const [reverseGeocode] = createReverseGeocode({
     mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN || 'YOUR_FALLBACK_MAPBOX_ACCESS_TOKEN',
   });
 
-  const result = await reverseGeocode.execute({
+  const result = await reverseGeocode({
     latitude: 40.7128,
     longitude: -74.006,
   });
