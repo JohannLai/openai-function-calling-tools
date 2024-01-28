@@ -14,7 +14,10 @@ it('should successfully get a map', async () => {
       }
     ],
     mapStyle: 'streets-v12',
+    zoom: 10,
   });
+
+  console.log(result);
 
   expect(result).toMatchObject({
     imageURL: expect.stringContaining('https://api.mapbox.com/styles/v1'),
