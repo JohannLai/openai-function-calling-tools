@@ -1,4 +1,5 @@
 // reverseGeocode.ts
+import { Tool, ToolInterface } from './tool';
 import { z } from 'zod';
 
 function createReverseGeocode({
@@ -48,7 +49,7 @@ function createReverseGeocode({
     };
   };
 
-  return { paramsSchema, name, description, execute };
+  return new Tool(paramsSchema, name, description, execute).tool;
 }
 
 export { createReverseGeocode };
