@@ -17,7 +17,6 @@ function createShowPoisOnMap({
       longitude: z.number(),
     })),
     zoom: z.number().optional(),
-    mapStyle: z.string().optional(),
   })
 
   const name = 'showPoisOnMap';
@@ -25,18 +24,13 @@ function createShowPoisOnMap({
   Displays specific Points of Interest (POIs) on a map using the Mapbox Static API. Returns a URL to the map image.
   pois: An array of POIs to be displayed on the map.
   zoom: The zoom level for the map depends from the place size. For larger places use min value and for smaller use max. For countries use zoom '1.0'-'3.0'; for national parks, states use '4.0'-'6.0'; landmarks, places or cities use '7.0'-'9.0'. For streets use '15'.  If multiple places are provided, this will automatically set to 'auto'.
-  mapStyle: The style of the map. Can be 'streets-v12', 'satellite-streets-v12', or 'outdoors-v12'. Default please set 'outdoors-v12'.
 `
 
-  const execute = async ({ pois, zoom, mapStyle }: z.infer<typeof paramsSchema>) => {
+  const execute = async ({ pois, zoom }: z.infer<typeof paramsSchema>) => {
     const accessToken = mapboxAccessToken;
 
     if (!accessToken) {
       throw new Error('Please set the Mapbox Access Token in the plugin settings.');
-    }
-
-    if (!mapStyle) {
-      mapStyle = 'outdoors-v12';
     }
 
     let markers;
@@ -51,7 +45,7 @@ function createShowPoisOnMap({
       formatZoom = `${formatZoom},0`;
     }
     let coordinates = pois.length == 1 ? `${pois[0].longitude},${pois[0].latitude},${formatZoom}` : 'auto';
-    let url = `https://api.mapbox.com/styles/v1/mapbox/${mapStyle || 'streets-v12'}/static/${markers}/${coordinates}/600x400@2x?access_token=${accessToken}${padding}`;
+    let url = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/${markers}/${coordinates}/600x400@2x?access_token=${accessToken}${padding}`;
 
     return { imageURL: url };
   };
