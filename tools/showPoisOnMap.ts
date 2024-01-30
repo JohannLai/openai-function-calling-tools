@@ -25,7 +25,7 @@ function createShowPoisOnMap({
   Displays specific Points of Interest (POIs) on a map using the Mapbox Static API. Returns a URL to the map image.
   pois: An array of POIs to be displayed on the map.
   zoom: The zoom level for the map depends from the place size. For larger places use min value and for smaller use max. For countries use zoom '1.0'-'3.0'; for national parks, states use '4.0'-'6.0'; landmarks, places or cities use '7.0'-'9.0'. For streets use '15'.  If multiple places are provided, this will automatically set to 'auto'.
-  mapStyle: The style of the map. Can be 'streets-v12' or 'satellite-streets-v12'.
+  mapStyle: The style of the map. Can be 'streets-v12', 'satellite-streets-v12', or 'outdoors-v12'. Default please set 'outdoors-v12'.
 `
 
   const execute = async ({ pois, zoom, mapStyle }: z.infer<typeof paramsSchema>) => {
@@ -33,6 +33,10 @@ function createShowPoisOnMap({
 
     if (!accessToken) {
       throw new Error('Please set the Mapbox Access Token in the plugin settings.');
+    }
+
+    if (!mapStyle) {
+      mapStyle = 'outdoors-v12';
     }
 
     let markers;
