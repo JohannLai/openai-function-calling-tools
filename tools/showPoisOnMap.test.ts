@@ -13,7 +13,6 @@ it('should successfully get a map', async () => {
         longitude: -74.006,
       }
     ],
-    mapStyle: 'streets-v12',
     zoom: 10,
   });
 

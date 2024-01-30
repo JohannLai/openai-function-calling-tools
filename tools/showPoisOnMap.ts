@@ -1,5 +1,5 @@
 // clock.ts
-import { Tool, ToolInterface } from './tool';
+import { Tool } from './tool';
 import { z } from 'zod';
 
 function createShowPoisOnMap({
