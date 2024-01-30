@@ -4,6 +4,7 @@ export { createBingCustomSearch } from './tools/bingCustomSearch';
 export { createSerpApiCustomSearch } from './tools/serpApiCustomSearch';
 export { createSerpApiImageSearch } from './tools/serpApiImageSearch';
 export { createSerperCustomSearch } from './tools/serperCustomSearch';
+export { createSerperImagesSearch } from './tools/serperImagesSearch';
 export { createClock } from './tools/clock';
 export { createWebBrowser } from './tools/webbrowser';
 export { createReadFileTool, createWriteFileTool } from './tools/fs';
